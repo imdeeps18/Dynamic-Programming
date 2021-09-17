@@ -1,0 +1,26 @@
+class Solution {
+    int houseRobber2(int[] houses, int lo, int high) {
+        int n = houses.length;
+        int[] dp = new int[n];
+        dp[lo] = houses[lo];
+        dp[lo+1] = houses[lo+1];
+        dp[lo+2] = houses[lo+2]+houses[lo];
+        lo=lo+3;
+        for(int i=lo; i<=high;i++){
+            dp[i] = houses[i]+Math.max(dp[i-2], dp[i-3]);
+        }
+        return Math.max(dp[high],dp[high-1]);
+    }
+    public int rob(int[] houses) {
+        int n = houses.length;
+        if(n==1)
+            return houses[0];
+        else if(n==2)
+            return Math.max(houses[1], houses[0]);
+        else if(n==3)
+            return Math.max(houses[0], Math.max(houses[1], houses[2]));
+        
+        int ans = Math.max(houseRobber2(houses, 0, n-2), houseRobber2(houses, 1, n-1));
+        return ans;
+    }
+}
